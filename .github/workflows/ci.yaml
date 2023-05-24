@@ -48,7 +48,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "${{ matrix.php }}"
-          tools: "composer:v2,flex"
+          tools: "composer:v2,flex,phpunit-bridge"
 
       - name: "Install dependencies"
         run: "composer update ${{ matrix.composer-flags }} --prefer-dist"
