@@ -1,0 +1,52 @@
+name: "CI Tests"
+
+on:
+  push:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: "PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony }}"
+    continue-on-error: ${{ matrix.can-fail }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: [7.2, 7.3, 7.4, 8.0, 8.1, 8.2]
+            symfony: 5.4.*
+            composer-flags: '--prefer-lowest'
+
+          - php: [7.2, 7.3, 7.4, 8.0, 8.1, 8.2]
+            symfony: 6.0.*
+            composer-flags: '--prefer-stable'
+            can-fail: false
+
+          - php: [8.1, 8.2]
+            symfony: [6.1.*, 6.2.*]
+            composer-flags: '--prefer-stable'
+            can-fail: false
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
+      - name: "Cache Composer packages"
+        uses: "actions/cache@v3"
+        with:
+          path: "~/.composer/cache"
+          key: "php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}"
+          restore-keys: "php-"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php }}"
+          tools: "composer:v2,flex"
+
+      - name: "Install dependencies"
+        run: "composer update ${{ matrix.composer-flags }} --prefer-dist"
+        env:
+          SYMFONY_REQUIRE: "${{ matrix.symfony }}"
+
+      - name: "Run PHPUnit Tests"
+        run: "composer test"
