@@ -1,0 +1,4 @@
+services:
+    Devgine\Demo\Command\HelloCommand:
+        tags:
+            - { name: 'console.command', command: 'devgine:demo:hello' }
