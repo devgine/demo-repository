@@ -44,7 +44,7 @@ jobs:
           key: "php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('composer.json') }}"
           restore-keys: "php-"
 
-      - name: "Install PHP"
+      - name: "Install PHP ${{ matrix.php }}"
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "${{ matrix.php }}"
@@ -56,4 +56,4 @@ jobs:
           SYMFONY_REQUIRE: "${{ matrix.symfony }}"
 
       - name: "Run PHPUnit Tests"
-        run: "composer test"
+        run: "./vendor/bin/simple-phpunit"
