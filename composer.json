@@ -1,0 +1,27 @@
+{
+    "name": "devgine/demo",
+    "description": "demo project",
+    "type": "library",
+    "keywords": ["demo"],
+    "homepage": "https://github.com/devgine/demo-repository",
+    "require": {
+        "php": ">=8.1",
+        "symfony/console": "^6.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Devgine\\Demo\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Yosri BAHRI",
+            "email": "yosribahri@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
